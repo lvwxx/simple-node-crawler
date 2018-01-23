@@ -9,7 +9,6 @@ const readFiles = () => {
     return new Promise((reslove,reject) => {
         fs.readFile(movieDir, 'utf8', (err,data) => {
             if(err) throw err;
-            console.log(data);
             reslove(data);
         })
     });
@@ -37,9 +36,11 @@ const saveImg = (movieName, url) => {
 
 (async () => {
     let name = await readFiles();
+    let nameList = name.split(',');
 
-    console.log('=====');
-
-    saveImg(name, await getPoster(name));
+    for(let i = 0; i<nameList.length; i++) {
+        console.log(`正在获取${nameList[i]}`);
+        saveImg(nameList[i], await getPoster(nameList[i]));
+    };
 
 })();
